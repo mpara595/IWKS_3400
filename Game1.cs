@@ -256,6 +256,15 @@ namespace IWKS_3400_Lab4
 
         // Ball
         Ball ball;
+        
+         //Blocks
+        Block blockL;
+        Block blockU;
+        Block blockR;
+        Block blockD;
+        Block blockGhost;
+        int[] blockArray = { 1, 2, 3, 4 }; //1=up, 2=down, 3=left, 4=right
+        static Random rnd = new Random();
 
         // Sound Effects
         SoundEffect ballhit;
@@ -306,6 +315,14 @@ namespace IWKS_3400_Lab4
                 graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             ball = new Ball(Content.Load<Texture2D>("small_ball"), new Vector2(600f, 100f), new Vector2(32f, 32f),
                 graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            blockL = new Block(Content.Load<Texture2D>("Left Arrow"), new Vector2(500f, -150f), new Vector2(200f, 600f),
+                graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            blockR = new Block(Content.Load<Texture2D>("Right Arrow"), new Vector2(600f, -150f), new Vector2(200f, 600f),
+               graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            blockU = new Block(Content.Load<Texture2D>("Up Arrow125"), new Vector2(700f, -500f), new Vector2(200f, 600f),
+                          graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            blockD = new Block(Content.Load<Texture2D>("Down Arrow 125"), new Vector2(800f, -500f), new Vector2(200f, 600f),
+              graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight); 
 
             //  set the speed the objects will move
             // the ball always starts in the middle and moves toward the player
@@ -323,6 +340,10 @@ namespace IWKS_3400_Lab4
             computer_paddle.texture.Dispose();
             player_paddle.texture.Dispose();
             ball.texture.Dispose();
+            blockL.texture.Dispose();
+            blockR.texture.Dispose();
+            blockD.texture.Dispose();
+            blockU.texture.Dispose();
 
         }
 
@@ -352,6 +373,27 @@ namespace IWKS_3400_Lab4
                     ballhit.Play();
                     ball.playit = false;
                 }
+                 //check if the ball hit the right side to begin droping blocks
+                /*   begin block randomization loop
+                 *   outer loop - counts to 4, or greater depending on difficulty setting
+                 *   inner loop randomly picks a number 1-4 from the array to determine which block to use
+                 *   trying to make the variable g equal to where the first block will be placed before being dropped, then incrementing
+                 *   g to the value where the next block will be placed.
+                 *   still working on this part....
+                if (ball.position.X + ball.size.X >= graphics.PreferredBackBufferWidth)
+                {
+                    //begin a loop to randomly pick which blocks will drop
+                    for (int c = -150; c < ; c-=200)
+                    {
+                        for(int g = )
+                        int key = rnd.Next(0, blockArray.Length);
+                        if(key == 1)
+                        {
+
+                        }
+                    }
+                    blockL.move(ball);
+                } */
 
                 //TODO: play sounds for paddle miss and kill shots
                 // This will require ball and paddle to tell us when to do this
@@ -429,6 +471,11 @@ namespace IWKS_3400_Lab4
             computer_paddle.Draw(spriteBatch);
             player_paddle.Draw(spriteBatch);
             ball.Draw(spriteBatch);
+            blockL.Draw(spriteBatch);
+            blockR.Draw(spriteBatch);
+            blockD.Draw(spriteBatch);
+            blockU.Draw(spriteBatch);
+
 
             spriteBatch.End();
 

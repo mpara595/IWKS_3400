@@ -15,7 +15,8 @@ namespace IWKS_3400_Lab4
         public Vector2 size { get; set; }      //  block size in pixels
         public Vector2 velocity { get; set; }  //  block velocity
         private Vector2 screenSize { get; set; } //  screen size
-
+        public char reverseKey { get; set; }     //the character that determines which key call the reverse function
+        public bool isDown { get; set; }  //a bool value to check if the block is down or not
 
         public Block(Texture2D newTexture, Vector2 newPosition, Vector2 newSize, int ScreenWidth, int ScreenHeight)
         {
@@ -23,6 +24,8 @@ namespace IWKS_3400_Lab4
             position = newPosition;
             size = newSize;
             screenSize = new Vector2(ScreenWidth, ScreenHeight);
+            char reverseKey;
+            isDown = false; //blocks always start off screen
             
         } 
         public void move(Ball ball)
@@ -40,6 +43,10 @@ namespace IWKS_3400_Lab4
             {  //go up until your position + size reaches the top of the screen
                 position += new Vector2(0f, 12f);
             } while (this.position.Y + this.size.Y != this.screenSize.Y);
+        }
+        public void grantKey(char x)
+        {
+            reverseKey = x;
         }
         public void Draw(SpriteBatch spriteBatch)
         {

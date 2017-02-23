@@ -179,6 +179,31 @@ namespace IWKS_3400_Lab4
             {
                 this.velocity = new Vector2(this.velocity.X, -this.velocity.Y);
             };
+            
+               //  Check bottom boundary
+            else if (this.position.Y + this.size.Y + this.velocity.Y > this.screenSize.Y)
+            {
+                this.position = new Vector2(position.X, 0f)  ;
+            }
+
+            // Check top boundary
+             else if (this.position.Y + this.velocity.Y < 0)
+            {
+                this.position = new Vector2(position.X, screenSize.Y - this.size.Y);
+            }
+
+            //check right boundary
+            else if (this.position.X + this.size.X + this.velocity.X > this.screenSize.X)
+            {
+                this.position = new Vector2(0f, position.Y);
+            }
+
+            //check left boundary
+
+            else if (this.position.X + this.velocity.X < 0)
+            {
+                this.position = new Vector2(screenSize.X - this.size.X, position.Y);
+            }
 
         }
 

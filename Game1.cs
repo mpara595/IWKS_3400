@@ -344,6 +344,10 @@ namespace IWKS_3400_Lab4
             blockR.texture.Dispose();
             blockD.texture.Dispose();
             blockU.texture.Dispose();
+            blockDummy1.texture.Dispose();
+            blockDummy2.texture.Dispose();
+            blockDummy3.texture.Dispose();
+            blockDummy4.texture.Dispose();
 
         }
 
@@ -380,20 +384,346 @@ namespace IWKS_3400_Lab4
                  *   trying to make the variable g equal to where the first block will be placed before being dropped, then incrementing
                  *   g to the value where the next block will be placed.
                  *   still working on this part....
-                if (ball.position.X + ball.size.X >= graphics.PreferredBackBufferWidth)
+             if (ball.position.X > ball.screenSize.X)
                 {
                     //begin a loop to randomly pick which blocks will drop
-                    for (int c = -150; c < ; c-=200)
+                    for (int c = 1; c <= 4 ; c++)
                     {
-                        for(int g = )
-                        int key = rnd.Next(0, blockArray.Length);
-                        if(key == 1)
+                        int key = rnd.Next(1, 4);
+                        if(c == 1 && key == 1)
                         {
-
+                            blockDummy1.texture = blockU.texture;
+                            blockDummy1.grantKey('u');
+                        }
+                        else if(c == 1 && key == 2)
+                        {
+                            blockDummy1.texture = blockD.texture;
+                            blockDummy1.grantKey('d');
+                        }
+                        else if(c == 1 && key == 3)
+                        {
+                            blockDummy1.texture = blockL.texture;
+                            blockDummy1.grantKey('l');
+                        }
+                        else if(c == 1 && key == 4)
+                        {
+                            blockDummy1.texture = blockR.texture;
+                            blockDummy1.grantKey('r');
+                        }
+                        if (c == 2 && key == 1)
+                        {
+                            blockDummy2.texture = blockU.texture;
+                            blockDummy2.grantKey('u');
+                        }
+                        else if (c == 2 && key == 2)
+                        {
+                            blockDummy2.texture = blockD.texture;
+                            blockDummy2.grantKey('d');
+                        }
+                        else if (c == 2 && key == 3)
+                        {
+                            blockDummy2.texture = blockL.texture;
+                            blockDummy2.grantKey('l');
+                        }
+                        else if (c == 2 && key == 4)
+                        {
+                            blockDummy2.texture = blockR.texture;
+                            blockDummy2.grantKey('r');
+                        }
+                        if (c == 3 && key == 1)
+                        {
+                            blockDummy3.texture = blockU.texture;
+                            blockDummy3.grantKey('u');
+                        }
+                        else if (c == 3 && key == 2)
+                        {
+                            blockDummy3.texture = blockD.texture;
+                            blockDummy3.grantKey('d');
+                        }
+                        else if (c == 3 && key == 3)
+                        {
+                            blockDummy3.texture = blockL.texture;
+                            blockDummy3.grantKey('l');
+                        }
+                        else if (c == 3 && key == 4)
+                        {
+                            blockDummy3.texture = blockR.texture;
+                            blockDummy3.grantKey('r');
+                        }
+                        if (c == 4 && key == 1)
+                        {
+                            blockDummy4.texture = blockU.texture;
+                            blockDummy4.grantKey('u');
+                        }
+                        else if (c == 4 && key == 2)
+                        {
+                            blockDummy4.texture = blockD.texture;
+                            blockDummy4.grantKey('d');
+                        }
+                        else if (c == 4 && key == 3)
+                        {
+                            blockDummy4.texture = blockL.texture;
+                            blockDummy4.grantKey('l');
+                        }
+                        else if (c == 4 && key == 4)
+                        {
+                            blockDummy4.texture = blockR.texture;
+                            blockDummy4.grantKey('r');
                         }
                     }
-                    blockL.move(ball);
-                } */
+                    blockDummy1.move();
+                    blockDummy1.isDown = true;
+                    blockDummy2.move();
+                    blockDummy2.isDown = true;
+                    blockDummy3.move();
+                    blockDummy3.isDown = true;
+                    blockDummy4.move();
+                    blockDummy4.isDown = true;
+                }
+
+                if (blockDummy1.isDown == true)  //just check if the first block is down, for now, if one is down then theyre all down
+                {                                 // will have to edit later to facilitate freezing blocks in place
+                    if (blockDummy1.reverseKey == 'u')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if(keyreverse.IsKeyDown(Keys.Up))
+                        {
+                            blockDummy1.reverse();
+                            blockDummy1.isDown = false;
+                        }
+                    }
+                   else if (blockDummy1.reverseKey == 'd')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Down))
+                        {
+                            blockDummy1.reverse();
+                            blockDummy1.isDown = false;
+                        }
+                    }
+                   else if (blockDummy1.reverseKey == 'l')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Left))
+                        {
+                            blockDummy1.reverse();
+                            blockDummy1.isDown = false;
+                        }
+                    }
+                   else if (blockDummy1.reverseKey == 'r')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Right))
+                        {
+                            blockDummy1.reverse();
+                            blockDummy1.isDown = false;
+                        }
+                    }
+                }
+                //beginning of blockdummy 2
+                if (blockDummy2.isDown == true)  
+                {                                 
+                    if (blockDummy2.reverseKey == 'u')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Up))
+                        {
+                            if (blockDummy1.reverseKey == 'u' && blockDummy1.isDown == true)
+                            {
+                                //need some kind of method here that just skips and moves to the next one
+                            }
+                            else
+                            {
+                                blockDummy2.reverse();
+                                blockDummy2.isDown = false;
+                            }
+                        }
+                    }
+                    else if (blockDummy2.reverseKey == 'd')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Down))
+                        {
+                            if (blockDummy1.reverseKey == 'd' && blockDummy1.isDown == true)
+                            {
+
+                            }
+                            else
+                            {
+                                blockDummy2.reverse();
+                                blockDummy2.isDown = false;
+                            }
+                        }
+                    }
+                    else if (blockDummy2.reverseKey == 'l')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Left))
+                        {
+                            if (blockDummy1.reverseKey == 'l' && blockDummy1.isDown == true)
+                            {
+
+                            }
+                            else
+                            {
+                                blockDummy2.reverse();
+                                blockDummy2.isDown = false;
+                            }
+                        }
+                     }
+                    else if (blockDummy2.reverseKey == 'r')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Right))
+                        {
+                            if (blockDummy1.reverseKey == 'r' && blockDummy1.isDown == true)
+                            {
+
+                            }
+                            else
+                            {
+                                blockDummy2.reverse();
+                                blockDummy2.isDown = false;
+                            }
+                        }
+                    }
+                }
+                //beginning of blockdummy 3
+                if (blockDummy3.isDown == true)
+                {
+                    if (blockDummy3.reverseKey == 'u')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Up))
+                        {
+                            if ((blockDummy1.reverseKey == 'u' && blockDummy1.isDown == true) || (blockDummy2.reverseKey == 'u' && blockDummy2.isDown == true))
+                            {
+
+                            }
+                            else
+                            {
+                                blockDummy3.reverse();
+                                blockDummy3.isDown = false;
+                            }
+                        }
+                    }
+                    else if (blockDummy3.reverseKey == 'd')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Down))
+                        {
+                            if ((blockDummy1.reverseKey == 'd' && blockDummy1.isDown == true) || (blockDummy2.reverseKey == 'd' && blockDummy2.isDown == true))
+                            {
+
+                            }
+                            else
+                            {
+                                blockDummy3.reverse();
+                                blockDummy3.isDown = false;
+                            }
+                        }
+                    }
+                    else if (blockDummy3.reverseKey == 'l')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Left))
+                        {
+                            if ((blockDummy1.reverseKey == 'l' && blockDummy1.isDown == true) || (blockDummy2.reverseKey == 'l' && blockDummy2.isDown == true))
+                            {
+
+                            }
+                            else
+                            {
+                                blockDummy3.reverse();
+                                blockDummy3.isDown = false;
+                            }
+                        }
+                    }
+                    else if (blockDummy3.reverseKey == 'r')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Right))
+                        {
+                            if ((blockDummy1.reverseKey == 'r' && blockDummy1.isDown == true) || (blockDummy2.reverseKey == 'r' && blockDummy2.isDown == true))
+                            {
+
+                            }
+                            else
+                            {
+                                blockDummy3.reverse();
+                                blockDummy3.isDown = false;
+                            }
+                        }
+                    }
+                }
+                //beginning of blockdummy 4
+                if (blockDummy4.isDown == true)
+                {
+                    if (blockDummy4.reverseKey == 'u')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Up))
+                        {
+                            if((blockDummy1.reverseKey == 'u' && blockDummy1.isDown == true) || (blockDummy2.reverseKey == 'u' && blockDummy2.isDown == true) || (blockDummy3.reverseKey == 'u' && blockDummy3.isDown == true))
+                            {
+
+                            }
+                            else
+                            {
+                                blockDummy4.reverse();
+                                blockDummy4.isDown = false;
+                            }
+                        }
+                    }
+                    else if (blockDummy4.reverseKey == 'd')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Down))
+                        {
+                            if ((blockDummy1.reverseKey == 'd' && blockDummy1.isDown == true) || (blockDummy2.reverseKey == 'd' && blockDummy2.isDown == true) || (blockDummy3.reverseKey == 'd' && blockDummy3.isDown == true))
+                            {
+
+                            }
+                            else
+                            {
+                                blockDummy4.reverse();
+                                blockDummy4.isDown = false;
+                            }
+                        }
+                    }
+                    else if (blockDummy4.reverseKey == 'l')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Left))
+                        {
+                            if ((blockDummy1.reverseKey == 'l' && blockDummy1.isDown == true) || (blockDummy2.reverseKey == 'l' && blockDummy2.isDown == true) || (blockDummy3.reverseKey == 'l' && blockDummy3.isDown == true))
+                            {
+
+                            }
+                            else
+                            {
+                                blockDummy4.reverse();
+                                blockDummy4.isDown = false;
+                            }
+                        }
+                    }
+                    else if (blockDummy4.reverseKey == 'r')
+                    {
+                        KeyboardState keyreverse = Keyboard.GetState();
+                        if (keyreverse.IsKeyDown(Keys.Right))
+                        {
+                            if ((blockDummy1.reverseKey == 'r' && blockDummy1.isDown == true) || (blockDummy2.reverseKey == 'r' && blockDummy2.isDown == true) || (blockDummy3.reverseKey == 'r' && blockDummy3.isDown == true))
+                            {
+
+                            }
+                            else
+                            {
+                                blockDummy4.reverse();
+                                blockDummy4.isDown = false;
+                            }
+                        }
+                    }
+                }
 
                 //TODO: play sounds for paddle miss and kill shots
                 // This will require ball and paddle to tell us when to do this
@@ -475,6 +805,10 @@ namespace IWKS_3400_Lab4
             blockR.Draw(spriteBatch);
             blockD.Draw(spriteBatch);
             blockU.Draw(spriteBatch);
+            blockDummy1.Draw(spriteBatch);
+            blockDummy2.Draw(spriteBatch);
+            blockDummy3.Draw(spriteBatch);
+            blockDummy4.Draw(spriteBatch);
 
 
             spriteBatch.End();

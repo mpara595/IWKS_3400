@@ -29,18 +29,42 @@ namespace IWKS_3400_Lab4
    
         public void Draw(SpriteBatch spriteBatch, Ball ball)
         {
-            //if (ball.position.X > 0) //&& ball.position.X < this.screenSize.X/2)
-            //{
-                
+            if (ball.position.X > 0) //&& ball.position.X < this.screenSize.X/2)
+            {
+
                 spriteBatch.Draw(texture, position, Color.White);
-             
-            //}
-             
+                isDown = true;
+                velocity = new Vector2(0, -200);
+            }
+            if(isDown == false)
+            {
+                Random rand = new Random();
+        
+               int val = rand.Next(1, 80);
+                if(val <= 20)
+                {
+                    position = new Vector2(503f, 0);
+                }
+                if (val >= 21 && val <= 40)
+                {
+                    position = new Vector2(628f, 0);
+                }
+                if (val >= 41 && val <= 60)
+                {
+                    position = new Vector2(753f, 0);
+                }
+                if (val >= 61 && val <= 80)
+                {
+                    position = new Vector2(878f, 0);
+                }
+              
+
+            }
         }
-        public void reDraw()
-        {
-            position = new Vector2(503f, 0);
-            isDown = true;
+        public void Draw(SpriteBatch spriteBatch)
+        {         
+                spriteBatch.Draw(texture, position, Color.White);                       
         }
+
     }
 }

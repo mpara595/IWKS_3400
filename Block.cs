@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +15,6 @@ namespace IWKS_3400_Lab4
         public Vector2 size { get; set; }      //  block size in pixels
         public Vector2 velocity { get; set; }  //  block velocity
         private Vector2 screenSize { get; set; } //  screen size
-        public char reverseKey { get; set; }     //the character that determines which key call the reverse function
         public bool isDown { get; set; }  //a bool value to check if the block is down or not
 
         public Block(Texture2D newTexture, Vector2 newPosition, Vector2 newSize, int ScreenWidth, int ScreenHeight)
@@ -24,33 +23,24 @@ namespace IWKS_3400_Lab4
             position = newPosition;
             size = newSize;
             screenSize = new Vector2(ScreenWidth, ScreenHeight);
-            char reverseKey;
             isDown = false; //blocks always start off screen
-            
-        } 
-        public void move(Ball ball)
-        {
-                //go down until position + size.Y hits the bottom of the screen
-                do
-            {
-                position += new Vector2(0f, -12f);
-            } while(this.position.Y + this.size.Y < this.screenSize.Y);
 
         }
-        public void reverse()
+   
+        public void Draw(SpriteBatch spriteBatch, Ball ball)
         {
-            do
-            {  //go up until your position + size reaches the top of the screen
-                position += new Vector2(0f, 12f);
-            } while (this.position.Y + this.size.Y != this.screenSize.Y);
+            //if (ball.position.X > 0) //&& ball.position.X < this.screenSize.X/2)
+            //{
+                
+                spriteBatch.Draw(texture, position, Color.White);
+             
+            //}
+             
         }
-        public void grantKey(char x)
+        public void reDraw()
         {
-            reverseKey = x;
-        }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(texture, position, Color.White);
+            position = new Vector2(503f, 0);
+            isDown = true;
         }
     }
 }

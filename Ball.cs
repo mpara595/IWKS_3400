@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;   //   for Texture2D
 using Microsoft.Xna.Framework;  //  for Vector2
+using IWKS_3400_Lab4;
 
 namespace IWKS_3400_Lab4
 {
@@ -41,7 +42,7 @@ namespace IWKS_3400_Lab4
         //collision with paddle?  could have combined these, but this is easier reading
         public bool Player_Collision(Paddle paddle)
         {
-
+            
             //player
             if ((this.position.X + this.size.X >= paddle.position.X) && // right side
                 (this.position.Y + this.size.Y >= paddle.position.Y) && //top boundary
@@ -49,6 +50,25 @@ namespace IWKS_3400_Lab4
                 return true;
             else
                 return false;
+        }
+
+        public bool Border_Collision_Player(Border_Line Border)
+        {
+
+            if ((this.position.X >= Border.size.X + Border.position.X))
+                return true;
+
+            return false; 
+        }
+
+        public bool Border_Collision_Computer(Border_Line Border)
+        {
+            if ((this.position.X <= Border.size.X + Border.position.X) &&  // left side
+                    (this.position.Y + this.size.Y >= Border.position.Y) && // top boundary
+                    (this.position.Y <= Border.position.Y + Border.size.Y))
+                return true;
+
+            return false;
         }
 
         public bool Computer_Collision(Paddle paddle)
@@ -80,17 +100,19 @@ namespace IWKS_3400_Lab4
             // minus 10 points for using embedded constants; fix this later
 
             // put a 32 x 32 ball in the middle of a 800 x 600 frame
-            position = new Vector2(384f, 284f);
+            position = new Vector2(980f, 284f);
 
             //start the ball toward the player, but not always in same direction or with same speed
-            velocity = new Vector2(rnd.Next(5, 7), rnd.Next(-2, 3));
+            velocity = new Vector2(rnd.Next(-6, -5), rnd.Next(-2, 3));
 
             // fix it if our random y velocity is horizontal (boring)
-            if (velocity.Y == 0) velocity = new Vector2(velocity.X, rnd.Next(-3, -1));
+            if (velocity.Y == 0) velocity = new Vector2(velocity.X, rnd.Next(-5, -3));
         }
 
 
-        public void Move(Paddle player, Paddle computer)
+
+
+        public void Move(Paddle player, Paddle computer, Border_Line Border)
         {
             //  Balls have more complex movement than paddles.  If they hit top or bottom, invert Y velocity.
             //  If they hit a paddle, change velocity depending upon where on the paddle we hit
@@ -101,7 +123,7 @@ namespace IWKS_3400_Lab4
 
             // reset collision_occured when we cross centerline
             // this avoids the odd case where we collide with the paddle while we are leaving the scene
-            if ((this.position.X > 350) && (this.position.X < 450)) this.collision_occured = false;
+            if ((this.position.X > 420) && (this.position.X < 520)) this.collision_occured = false;
 
             // check to see if we hit a paddle
             if (Player_Collision(player) && this.collision_occured == false)
@@ -114,13 +136,13 @@ namespace IWKS_3400_Lab4
                 if (Corner_Collision(player))
                 {
                     // kill shot
-                    velocity = new Vector2((-this.velocity.X * 2), this.velocity.Y + rnd.Next(-1, 2));
+                    velocity = new Vector2((-this.velocity.X * 1 + 1), this.velocity.Y + rnd.Next(-2, 2));
                 }
                 else
                 {
                     // normal ball return; just invert X velocity; play with velocity just a bit
 
-                    velocity = new Vector2(-this.velocity.X, rnd.Next(((int)this.velocity.Y - 1), ((int)this.velocity.Y + 2)));
+                    velocity = new Vector2(-this.velocity.X, rnd.Next(((int)this.velocity.Y + 1), ((int)this.velocity.Y + 2)));
                 }
             }
 
@@ -144,11 +166,13 @@ namespace IWKS_3400_Lab4
 
             //we might be at an edge, do the right thing if needed
 
+
+
             //  Check right boundary to see if we missed the paddle
-            else if (this.position.X + this.size.X + this.velocity.X > this.screenSize.X)
+            else if (this.position.X + this.size.X >= Border.position.X && this.position.X < Border.position.X + Border.size.X && this.velocity.X > 0)
             {
                 // Give the other guy a point
-                scoreComputer += 1;
+                scorePlayer += 1;
                 // Play the paddle miss sound
                 //TODO
                 // Go again
@@ -157,15 +181,14 @@ namespace IWKS_3400_Lab4
             }
 
             //  Check left boundary to see if we missed the paddle
-            else if (this.position.X + this.velocity.X < 0)
+            else if (this.position.X < Border.position.X + Border.size.X && this.position.X > Border.position.X && this.velocity.X < 0)
             {
                 // Give the other guy a point
-                scorePlayer += 1;
+                scoreComputer += 1;
                 // Play the paddle miss sound
                 //TODO
                 // Go again
                 Reset();
-
             }
 
             //  Check bottom boundary
@@ -178,7 +201,7 @@ namespace IWKS_3400_Lab4
             else if (this.position.Y + this.velocity.Y < 0)
             {
                 this.velocity = new Vector2(this.velocity.X, -this.velocity.Y);
-            };
+            }
             
                //  Check bottom boundary
             else if (this.position.Y + this.size.Y + this.velocity.Y > this.screenSize.Y)

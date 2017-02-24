@@ -19,6 +19,17 @@ namespace IWKS_3400_Lab4
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        enum GameState
+        {
+            MainMenu,
+            Options,
+            Playing,
+        }
+        //when game loads, starts in MainMenu
+        GameState CurrentGameState = GameState.MainMenu;
+        //Screen Asdjustments
+        int screenWidth = 1000, screenHeight = 500;
+        cButton btnPlay;
         SpriteFont Font1;
         Vector2 FontPos;
         Boolean done = false;  // if true, we will display the victory/consolation message
@@ -69,6 +80,7 @@ namespace IWKS_3400_Lab4
         protected override void Initialize()
         {
             base.Initialize();
+            this.IsMouseVisible = true;
         }
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -90,7 +102,14 @@ namespace IWKS_3400_Lab4
             MediaPlayer.Play(Song);
             MediaPlayer.Volume = 0.3f;
           
-
+          // Screen
+            graphics.PreferredBackBufferWidth = screenWidth;
+            graphics.PreferredBackBufferHeight = screenHeight;
+            graphics.ApplyChanges();
+            this.IsMouseVisible = true;
+            btnPlay = new cButton(Content.Load<Texture2D>("Play Button100x50"), new Vector2(100, 50));
+            btnPlay.setPosition(new Vector2(209, 436));
+            
             //--Backgrounds--
             Background = Content.Load<Texture2D>("Clouds");
             mainFrame = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
@@ -147,6 +166,18 @@ namespace IWKS_3400_Lab4
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
+                
+             MouseState mouse = Mouse.GetState();
+            switch (CurrentGameState)
+            {
+                case GameState.MainMenu:
+                    if (btnPlay.isClicked == true) CurrentGameState = GameState.Playing;
+                    btnPlay.Update(mouse);
+                    break;
+                case GameState.Playing:
+                    break;
+            }
+                
             // this check allows to freeze the game to display the victory/consolation message
             if (done == false)
             {
@@ -265,9 +296,22 @@ namespace IWKS_3400_Lab4
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.MediumVioletRed);
+            GraphicsDevice.Clear(Color.MediumVioletRed);          
+            
             // Draw the sprites
             spriteBatch.Begin();
+            
+            //draws the background for the title screen
+            switch (CurrentGameState)
+            {
+                case GameState.MainMenu:
+                    spriteBatch.Draw(Content.Load<Texture2D>("TitleScreen1000x500"), new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
+                    btnPlay.Draw(spriteBatch);
+                    break;
+                case GameState.Playing:
+                    break;
+            }
+            
             spriteBatch.Draw(Background, mainFrame, Color.White);
             Border.Draw(spriteBatch);
             // Draw running score string
